@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdrawal page</title>
+    <link rel="stylesheet" href="withdrawal page.css"> 
+</head>
+<body>
+  <main>
+    <h1>Withdraw money</h1>
+    <p class="intro">Choose where you’d like to receive your funds.</p>
+
+    <section class="balance">
+      <span>Available Wallet balance</span>
+      <strong>$4,280.50</strong>
+    </section>
+
+    <form id="withdrawal-form">
+      <h2>Choose withdrawal method </h2>
+      <p class="hint">Select a payout method and enter the details below.</p>
+
+      <div class="methods" role="radiogroup" aria-label="Payout method">
+        <label class="method">
+          <input type="radio" name="method" value="bank" checked>
+          <strong>Bank account</strong><small>Usually 1–3 business days</small>
+        </label>
+        <label class="method">
+          <input type="radio" name="method" value="paypal">
+          <strong>PayPal</strong><small>Usually within 8 hours</small>
+        </label>
+        <label class="method">
+          <input type="radio" name="method" value="crypto">
+          <strong>Crypto wallet</strong><small>Network fees may apply</small>
+        </label>
+      </div>
+
+      <div class="fields">
+        <div class="field full">
+          <label for="amount">Withdrawal amount (USD)</label>
+          <input id="amount" name="amount" type="number" min="10" max="4280.50"
+                 step="0.01" placeholder="0.00" required>
+        </div>
+        <div class="field">
+          <label id="recipient-label" for="recipient">Account holder name</label>
+          <input id="recipient" name="recipient" type="text"
+                 placeholder="Full name on account" required>
+        </div>
+        <div class="field">
+          <label id="destination-label" for="destination">Account number</label>
+          <input id="destination" name="destination" type="text"
+                 placeholder="Enter your account number" required>
+        </div>
+        <div class="field full" id="extra-field">
+          <label id="extra-label" for="extra">Routing number</label>
+          <input id="extra" name="extra" type="text"
+                 placeholder="Enter your routing number" required>
+        </div>
+      </div>
+
+      <button type="submit">Continue withdrawal →</button>
+      <p id="notice" role="status"></p>
+    </form>
+  </main>
+   <script>
+    const configs = {
+      bank: {
+        recipient: "Account holder name",
+        recipientPlaceholder: "Full name on account",
+        destination: "Account number",
+        destinationPlaceholder: "Enter your account number",
+        extra: "Routing number",
+        extraPlaceholder: "Enter your routing number",
+        showExtra: true
+      },
+      paypal: {
+        recipient: "PayPal account name",
+        recipientPlaceholder: "Name on your PayPal account",
+        destination: "PayPal email address",
+        destinationPlaceholder: "you@example.com",
+        destinationType: "email",
+        showExtra: false
+      },
+      crypto: {
+        recipient: "Wallet name (optional)",
+        recipientPlaceholder: "e.g. Personal wallet",
+        destination: "Wallet address",
+        destinationPlaceholder: "Paste your wallet address",
+        extra: "Network",
+        extraPlaceholder: "e.g. Ethereum, Bitcoin, Solana",
+        showExtra: true
+      }
+    };
+
+    const form = document.querySelector("#withdrawal-form");
+    const recipient = document.querySelector("#recipient");
+    const destination = document.querySelector("#destination");
+    const extra = document.querySelector("#extra");
+    const extraField = document.querySelector("#extra-field");
+    const notice = document.querySelector("#notice");
+
+    document.querySelectorAll('input[name="method"]').forEach(radio => {
+      radio.addEventListener("change", () => {
+        const config = configs[radio.value];
+        document.querySelector("#recipient-label").textContent = config.recipient;
+        recipient.placeholder = config.recipientPlaceholder;
+        recipient.required = radio.value !== "crypto";
+        document.querySelector("#destination-label").textContent = config.destination;
+        destination.placeholder = config.destinationPlaceholder;
+        destination.type = config.destinationType || "text";
+        document.querySelector("#extra-label").textContent = config.extra || "";
+        extra.placeholder = config.extraPlaceholder || "";
+        extra.required = radio.value === "bank";
+        extraField.hidden = !config.showExtra;
+        notice.classList.remove("show");
+      });
+    });
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      notice.textContent =
+        "Your details are ready. Connect this form to a payment provider to submit the withdrawal.";
+      notice.classList.add("show");
+    });
+  </script>
+</head>
+<body> 

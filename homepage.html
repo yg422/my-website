@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+    <header>
+        <a class="logo" href="index.html"><span>●</span> YG-PAY</a>
+        <a class="logout" href="index.html">Log out</a>
+    </header>
+
+    <main>
+        <section class="welcome">
+            <p>Your account overview</p>
+            <h1>Welcome, <span id="userName">Cole Hauser</span></h1> 
+        </section>
+
+        <section class="top-grid">
+            <div class="card balance-card">
+                <p class="balance-label">Available balance</p> 
+                <h2 class="balance-amount" id="balance">$12,450.00</h2>
+                <p class="balance-note"> todays check in: </p>
+            </div>
+        </section>
+        <h3> Quick actions</h3>
+        <div class="container">
+            <div class="box">
+                <!-- <button class="action-button secondary" onclick="withdrawMoney()">Withdraw</button> -->
+                 <button class="quick-action-button" onclick="window.location.href='withdrawal page.html'">Withdraw </button>
+            </div>
+            <div class="box">
+                <!-- <button class="action-button" onclick="transferMoney()"> Send </button>  -->
+                <button class="quick-action-button" onclick="window.location.href='send page. html.html'">Send</button>
+            </div>
+            <div class="box">
+                <button class="quick-action-button" onclick=""> Request</button> 
+            </div>
+        </div>
+
+        <section class="card history-card">
+            <div class="history-heading">
+                <h2>Transaction history</h2>
+                <span>Recent activity</span>
+            </div>
+            <div id="transactions"></div>
+        </section>
+    </main>
+
+    <script>
+        let availableBalance = 12450;
+
+        const transactions = [
+            { title: "Salary payment", date: "Today, 9:15 AM", amount: 3200 },
+            { title: "Transfer to David", date: "Yesterday, 2:40 PM", amount: -250 },
+            { title: "Online purchase", date: "Oct 19, 11:05 AM", amount: -84.5 }
+        ];
+
+        const money = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD"
+        });
+
+        function renderPage() {
+            document.getElementById("balance").textContent =
+                money.format(availableBalance);
+
+            const list = document.getElementById("transactions");
+            list.replaceChildren();
+
+            transactions.forEach((transaction) => {
+                const row = document.createElement("div");
+                row.className = "transaction";
+
+                const info = document.createElement("div");
+                info.className = "transaction-info";
+
+                const title = document.createElement("strong");
+                title.textContent = transaction.title;
+
+                const date = document.createElement("small");
+                date.textContent = transaction.date;
+
+                info.append(title, date);
+
+                const amount = document.createElement("span");
+                amount.className = "amount " +
+                    (transaction.amount > 0 ? "positive" : "negative");
+                amount.textContent =
+                    (transaction.amount > 0 ? "+" : "") +
+                    money.format(transaction.amount);
+
+                row.append(info, amount);
+                list.append(row);
+            });
+        }
+
+        function addTransaction(title, amount) {
+            transactions.unshift({
+                title,
+                amount,
+                date: "Just now"
+            });
+            renderPage();
+        }
+
+        function transferMoney() {
+            const recipient = prompt("Who would you like to transfer money to?");
+            if (!recipient) return;
+
+            const amount = Number(prompt("Enter the transfer amount:"));
+            if (!Number.isFinite(amount) || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            if (amount > availableBalance) {
+                alert("There is not enough money in this demo balance.");
+                return;
+            }
+
+            availableBalance -= amount;
+            addTransaction("Transfer to " + recipient, -amount);
+        }
+
+        function withdrawMoney() {
+            const amount = Number(prompt("Enter the withdrawal amount:"));
+            if (!Number.isFinite(amount) || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            if (amount > availableBalance) {
+                alert("There is not enough money in this demo balance.");
+                return;
+            }
+
+            availableBalance -= amount;
+            addTransaction("Cash withdrawal", -amount);
+        }
+
+        renderPage();
+    </script>
+</body>
+</html> 
