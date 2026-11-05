@@ -41,7 +41,11 @@ export async function sendDemoTransfer(recipientEmail, amount) {
         p_amount: amount
     })
     if (error) throw error
-    return { balance: Number(data.balance), recipientBalance: Number(data.recipient_balance) }
+    return {
+        balance: Number(data.balance),
+        recipientBalance: Number(data.recipient_balance),
+        recipientName: data.recipient_name
+    }
 }
 
 export async function withdrawDemoFunds(amount, method) {
@@ -66,7 +70,9 @@ export function renderTransactions(transactions, container) {
         const info = document.createElement('div')
         info.className = 'transaction-info'
         const title = document.createElement('strong')
-        title.textContent = transaction.title.replace(/^Demo\s+/i, '')
+        title.textContent = transaction.title
+            .replace(/^Demo\s+/i, '')
+            .replace(/((?:Sent to|Received from)\s+)[^\s@]+@[^\s]+/i, '$1another user')
         const date = document.createElement('small')
         date.textContent = new Date(transaction.date).toLocaleString()
         info.append(title, date)

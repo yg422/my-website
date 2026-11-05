@@ -66,10 +66,10 @@
         submit.disabled = true
         notice.textContent = 'Sending…'
         try {
-          await sendDemoTransfer(recipient, amount)
+          const result = await sendDemoTransfer(recipient, amount)
           notice.textContent = ''
           document.querySelector('#receipt-amount').textContent = money.format(amount)
-          document.querySelector('#receipt-recipient').textContent = recipient
+          document.querySelector('#receipt-recipient').textContent = result.recipientName
           document.querySelector('#receipt-date').textContent = new Date().toLocaleString()
           receipt.showModal()
           form.reset()
