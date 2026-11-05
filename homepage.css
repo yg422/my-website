@@ -149,6 +149,14 @@
             color: white;
         }
 
+        .action-icon {
+            display: inline-grid;
+            place-items: center;
+            flex: 0 0 18px;
+            font-size: 18px;
+            line-height: 1;
+        }
+
         .quick--button.secondary{
             border: opx solid #ffffff35;
             /* color: var(--text); */
