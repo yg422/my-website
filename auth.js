@@ -9,6 +9,13 @@ const signInForm = document.querySelector('#sign-in-form')
 const signUpForm = document.querySelector('#sign-up-form')
 const message = document.querySelector('#auth-message')
 
+if (message && new URLSearchParams(window.location.search).has('registered')) {
+    const needsConfirmation = new URLSearchParams(window.location.search).has('confirm')
+    showMessage(needsConfirmation
+        ? 'Account created. Confirm your email, then sign in.'
+        : 'Account created. Enter your email and password to sign in.')
+}
+
 function showMessage(text, isError = false) {
     if (!message) return
     message.textContent = text
@@ -66,12 +73,9 @@ if (signUpForm) {
             return
         }
 
-        if (data.session) {
-            window.location.assign('homepage.html')
-            return
-        }
-
-        showMessage('Account created. Check your email to confirm it, then sign in.')
-        button.disabled = false
+        const loginUrl = new URL('contact=styled.html', window.location.href)
+        loginUrl.searchParams.set('registered', '1')
+        if (!data.session) loginUrl.searchParams.set('confirm', '1')
+        window.location.assign(loginUrl)
     })
 }
