@@ -123,18 +123,20 @@
         }
 
         .quick-action-button{
-            /* width: 100%; */
+            width: 100%;
             display: flex;
             align-items: center;
-            padding: 15px 20px;
+            justify-content: center;
+            padding: 10px 8px;
             gap: 10px;
             border: 0;
             border-radius: 100px;
             color: #dedce4;
             /* background: var(--accent); */
             background: transparent;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
+            white-space: nowrap;
             cursor: pointer;
         }
         .withdraw-icon{
@@ -195,19 +197,19 @@
             color: var(--muted);
         }
         .container{
-             display: flex;
-             justify-content: left;
-             gap: 20px;
-             padding: 20px;
+             display: grid;
+             grid-template-columns: repeat(3, minmax(0, 150px));
+             gap: 12px;
+             width: 100%;
+             padding: 12px 0;
         }
         .box{
             background-color: #6fa5af72;
-            padding: 30px;
+            min-width: 0;
+            padding: 10px;
             border-radius: 10px;
             text-align: center;
-            flex: none;
             border: 1px solid rgb(246, 247, 246);
-            
         }
         .amount {
             white-space: nowrap;
@@ -238,6 +240,20 @@
         }
 
         @media (max-width: 420px) {
+            .container {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .box {
+                padding: 7px;
+            }
+
+            .quick-action-button {
+                padding: 10px 4px;
+                font-size: 12px;
+            }
+
             .actions {
                 grid-template-columns: 1fr;
             }
