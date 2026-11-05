@@ -22,7 +22,7 @@
             <div class="card balance-card">
                 <p class="balance-label">Available balance</p> 
                 <h2 class="balance-amount" id="balance">$12,450.00</h2> 
-                <p class="balance-note"> todays check in: </p>
+            <p class="balance-note">Demo balance only · no real funds</p>
             </div>
         </section>
         <h3> Quick actions</h3>
@@ -50,19 +50,18 @@
     </main>
 
     <script type="module">
-        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+        import { supabase, requireSignedIn, loadWallet, money, renderTransactions } from './demo-wallet.js'
 
-        const supabase = createClient(
-            'https://vichweflmhhepwkwdzdl.supabase.co',
-            'sb_publishable_rvW7gmWbDiwm_0IB7L3rnQ_ulE6vcwG'
-        )
-
-        const { data: { session } } = await supabase.auth.getSession()
-        if (!session) {
-            window.location.replace('contact=styled.html')
-        } else {
-            const name = session.user.user_metadata?.full_name || session.user.email
-            document.querySelector('#userName').textContent = name
+        const user = await requireSignedIn()
+        if (user) {
+            document.querySelector('#userName').textContent = user.user_metadata?.full_name || user.email
+            try {
+                const wallet = await loadWallet()
+                document.querySelector('#balance').textContent = money.format(wallet.balance)
+                renderTransactions(wallet.transactions, document.querySelector('#transactions'))
+            } catch (error) {
+                document.querySelector('#transactions').textContent = error.message
+            }
         }
 
         document.querySelector('#logout-link').addEventListener('click', async (event) => {
@@ -70,100 +69,6 @@
             await supabase.auth.signOut()
             window.location.assign('contact=styled.html')
         })
-    </script>
-    <script>
-        let availableBalance = 12450;
-
-        const transactions = [
-            { title: "Salary payment", date: "Today, 9:15 AM", amount: 3200 },
-            { title: "Transfer to David", date: "Yesterday, 2:40 PM", amount: -250 },
-            { title: "Online purchase", date: "Oct 19, 11:05 AM", amount: -84.5 }
-        ];
-
-        const money = new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD"
-        });
-
-        function renderPage() {
-            document.getElementById("balance").textContent =
-                money.format(availableBalance);
-
-            const list = document.getElementById("transactions");
-            list.replaceChildren();
-
-            transactions.forEach((transaction) => {
-                const row = document.createElement("div");
-                row.className = "transaction";
-
-                const info = document.createElement("div");
-                info.className = "transaction-info";
-
-                const title = document.createElement("strong");
-                title.textContent = transaction.title;
-
-                const date = document.createElement("small");
-                date.textContent = transaction.date;
-
-                info.append(title, date);
-
-                const amount = document.createElement("span");
-                amount.className = "amount " +
-                    (transaction.amount > 0 ? "positive" : "negative");
-                amount.textContent =
-                    (transaction.amount > 0 ? "+" : "") +
-                    money.format(transaction.amount);
-
-                row.append(info, amount);
-                list.append(row);
-            });
-        }
-
-        function addTransaction(title, amount) {
-            transactions.unshift({
-                title,
-                amount,
-                date: "Just now"
-            });
-            renderPage();
-        }
-
-        function transferMoney() {
-            const recipient = prompt("Who would you like to transfer money to?");
-            if (!recipient) return;
-
-            const amount = Number(prompt("Enter the transfer amount:"));
-            if (!Number.isFinite(amount) || amount <= 0) {
-                alert("Please enter a valid amount.");
-                return;
-            }
-
-            if (amount > availableBalance) {
-                alert("There is not enough money in this demo balance.");
-                return;
-            }
-
-            availableBalance -= amount;
-            addTransaction("Transfer to " + recipient, -amount);
-        }
-
-        function withdrawMoney() {
-            const amount = Number(prompt("Enter the withdrawal amount:"));
-            if (!Number.isFinite(amount) || amount <= 0) {
-                alert("Please enter a valid amount.");
-                return;
-            }
-
-            if (amount > availableBalance) {
-                alert("There is not enough money in this demo balance.");
-                return;
-            }
-
-            availableBalance -= amount;
-            addTransaction("Cash withdrawal", -amount);
-        }
-
-        renderPage();
     </script>
 </body>
 </html> 

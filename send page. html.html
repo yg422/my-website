@@ -9,11 +9,12 @@
 <body>
     <main>
     <div class="brand"><span class="brand-mark" aria-hidden="true">Y</span>YG-PAY</div>
+    <a href="homepage.html">Back</a>
     <p class="eyebrow">Payments</p>
     <h1>Send money</h1>
     <p class="intro">Enter the recipient and payment details below.</p>
 
-    <form action="/send" method="post">
+    <form id="send-form">
       <div class="field">
         <label for="recipient-email">Recipient email</label>
         <input id="recipient-email" name="recipient_email" type="email" placeholder="name@example.com" autocomplete="email" required>
@@ -27,8 +28,38 @@
         </div>
       </div>
       <button type="submit">Continue</button>
-      <p class="secure">Your payment details are handled securely.</p>
+      <p class="secure">Demo transfer only. No real money will be sent.</p>
+      <p id="notice" role="status" aria-live="polite"></p>
     </form>
   </main>
+  <script type="module">
+    import { requireSignedIn, sendDemoTransfer, money } from './demo-wallet.js'
+    const user = await requireSignedIn()
+    const form = document.querySelector('#send-form')
+    const notice = document.querySelector('#notice')
+    if (user) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        const amount = Number(document.querySelector('#amount').value)
+        const recipient = document.querySelector('#recipient-email').value.trim()
+        if (!Number.isFinite(amount) || amount <= 0) {
+          notice.textContent = 'Enter an amount greater than zero.'
+          return
+        }
+        if (!window.confirm(`Send ${money.format(amount)} to ${recipient}? This is a demo only.`)) return
+        const submit = form.querySelector('button[type="submit"]')
+        submit.disabled = true
+        try {
+          const result = await sendDemoTransfer(recipient, amount)
+          notice.textContent = `Demo transfer sent. Your balance is ${money.format(result.balance)}; the recipient’s demo balance has been credited.`
+          form.reset()
+        } catch (error) {
+          notice.textContent = error.message
+        } finally {
+          submit.disabled = false
+        }
+      })
+    }
+  </script>
 </body>
 </html>
