@@ -8,21 +8,21 @@
 </head>
 <!-- <h1>BUDDY PAY  </h1> -->
 <body>
-    <form action=""> 
+    <form id="sign-in-form">
     <h2> LOGIN </h2>
     <h3>Welcome Back</h3>
     <p1>Login to your acct to continue</p1>
     <!-- <label for="S"> Username </label>
     <input type="text" placeholder="@username" id="S"><br> -->
     <label for="E"> Email</label>
-    <input type="email" placeholder="Enter your email" required id="E"><br> 
+    <input type="email" placeholder="Enter your email" required id="E" autocomplete="email"><br>
     <label for="P"> Password</label>
-    <input type="text" placeholder="***********" id="P">
-    <button type="submit"> Sign In</button><br> 
+    <input type="password" placeholder="Enter your password" required id="P" autocomplete="current-password">
+    <button class="sign-in-button" type="submit">Sign In</button>
+    <p id="auth-message" role="status" aria-live="polite"></p>
     <p> Dont have an account ? <a href="sign up.html">Register</a></p> 
     </form> 
-
-    
+    <script type="module" src="auth.js"></script>
     
 </body>
 </html>

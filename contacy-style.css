@@ -63,7 +63,10 @@
 
     input:focus { border-color: var(--accent); }
 
-    button {
+    .sign-in-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         margin-top: 24px;
         padding: 14px;
@@ -73,10 +76,16 @@
         background: var(--accent);
         font: inherit;
         font-weight: 700;
+        text-decoration: none;
         cursor: pointer;
+        border: 0;
+        font-size: 16px;
     }
 
-    button:hover { filter: brightness(1.1); } /* * {
+    .sign-in-button:hover { filter: brightness(1.1); }
+    #auth-message { min-height: 1.3em; color: var(--text); }
+
+    /* * {
             box-sizing: border-box;
        }
         h2{

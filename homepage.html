@@ -9,19 +9,19 @@
 <body>
     <header>
         <a class="logo" href="index.html"><span>●</span> YG-PAY</a>
-        <a class="logout" href="index.html">Log out</a>
+        <a class="logout" id="logout-link" href="contact=styled.html">Log out</a>
     </header>
 
     <main>
         <section class="welcome">
             <p>Your account overview</p>
-            <h1>Welcome, <span id="userName">Cole Hauser</span></h1> 
+            <h1>Welcome, <span id="userName">Cole Hauser</span></h1>  
         </section>
 
         <section class="top-grid">
             <div class="card balance-card">
                 <p class="balance-label">Available balance</p> 
-                <h2 class="balance-amount" id="balance">$12,450.00</h2>
+                <h2 class="balance-amount" id="balance">$12,450.00</h2> 
                 <p class="balance-note"> todays check in: </p>
             </div>
         </section>
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <section class="card history-card">
+        <section class="card history-card"> 
             <div class="history-heading">
                 <h2>Transaction history</h2>
                 <span>Recent activity</span>
@@ -49,6 +49,28 @@
         </section>
     </main>
 
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabase = createClient(
+            'https://vichweflmhhepwkwdzdl.supabase.co',
+            'sb_publishable_rvW7gmWbDiwm_0IB7L3rnQ_ulE6vcwG'
+        )
+
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) {
+            window.location.replace('contact=styled.html')
+        } else {
+            const name = session.user.user_metadata?.full_name || session.user.email
+            document.querySelector('#userName').textContent = name
+        }
+
+        document.querySelector('#logout-link').addEventListener('click', async (event) => {
+            event.preventDefault()
+            await supabase.auth.signOut()
+            window.location.assign('contact=styled.html')
+        })
+    </script>
     <script>
         let availableBalance = 12450;
 

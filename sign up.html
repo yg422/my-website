@@ -7,21 +7,22 @@
     <link rel="stylesheet" href="sign up. css.css">
 </head>
 <body>
-    <form action="">
+    <form id="sign-up-form">
         <h1> Sign Up</h1>
         <h2> Create your account</h2>
         <p1> Join today and enjoy seamless transaction</p1>
         <label for="F"> Full name</label>
         <input type="text" placeholder="Enter your Full name" required id="F"><br>
         <label for="E"> Email Address</label>
-        <input type="email" placeholder="Enter your email" required id="E"><br>
+        <input type="email" placeholder="Enter your email" required id="E" autocomplete="email"><br>
         <label for="P"> Password </label>
-        <input type="text" placeholder="At least 8 Characters" required id="P"><br>
+        <input type="password" placeholder="At least 8 Characters" required id="P" minlength="8" autocomplete="new-password"><br>
         <label for="C"> Confirm Password </label>
-        <input type="text" placeholder="Confirm Password" id="C"><br>
+        <input type="password" placeholder="Confirm Password" required id="C" minlength="8" autocomplete="new-password"><br>
         <button type="submit"> Create account </button> 
+        <p id="auth-message" role="status" aria-live="polite"></p>
         <p> Already have an account ? <a href="contact=styled.html">Log in </a></p>
     </form>
-    
+    <script type="module" src="auth.js"></script>
 </body>
 </html>
