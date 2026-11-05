@@ -13,7 +13,7 @@
 
     <section class="balance">
       <span>Available demo wallet balance</span>
-      <strong id="withdrawal-balance">$12,450.00</strong>
+      <strong id="withdrawal-balance">Loading…</strong>
     </section>
 
     <form id="withdrawal-form">
@@ -41,6 +41,18 @@
           <input id="amount" name="amount" type="number" min="0.01" step="0.01"
                  placeholder="0.00" required>
         </div>
+        <div class="field" id="recipient-field">
+          <label id="recipient-label" for="recipient">Account holder name</label>
+          <input id="recipient" name="recipient" type="text" autocomplete="name" placeholder="Name on account" required>
+        </div>
+        <div class="field" id="destination-field">
+          <label id="destination-label" for="destination">Bank name</label>
+          <input id="destination" name="destination" type="text" placeholder="Enter bank name" required>
+        </div>
+        <div class="field full" id="extra-field">
+          <label id="extra-label" for="extra">Account number</label>
+          <input id="extra" name="extra" type="text" inputmode="numeric" placeholder="Enter account number" required>
+        </div>
       </div>
 
       <button type="submit">Continue withdrawal →</button>
@@ -53,6 +65,58 @@
     const form = document.querySelector('#withdrawal-form')
     const notice = document.querySelector('#notice')
     const balanceDisplay = document.querySelector('#withdrawal-balance')
+    const recipientField = document.querySelector('#recipient-field')
+    const destinationField = document.querySelector('#destination-field')
+    const extraField = document.querySelector('#extra-field')
+    const recipient = document.querySelector('#recipient')
+    const destination = document.querySelector('#destination')
+    const extra = document.querySelector('#extra')
+    const methodConfigs = {
+      bank: {
+        recipient: ['Account holder name', 'Name on account'],
+        destination: ['Bank name', 'Enter bank name', 'text'],
+        extra: ['Account number', 'Enter account number'],
+        showRecipient: true, showDestination: true, showExtra: true
+      },
+      paypal: {
+        destination: ['PayPal email', 'Enter PayPal email', 'email'],
+        showRecipient: false, showDestination: true, showExtra: false
+      },
+      crypto: {
+        destination: ['Wallet address', 'Enter wallet address', 'text'],
+        extra: ['Network', 'For example, Ethereum or Bitcoin'],
+        showRecipient: false, showDestination: true, showExtra: true
+      }
+    }
+    function updateMethodFields(method) {
+      const config = methodConfigs[method]
+      recipientField.hidden = !config.showRecipient
+      destinationField.hidden = !config.showDestination
+      extraField.hidden = !config.showExtra
+      recipient.required = config.showRecipient
+      destination.required = config.showDestination
+      extra.required = config.showExtra
+      if (config.recipient) {
+        document.querySelector('#recipient-label').textContent = config.recipient[0]
+        recipient.placeholder = config.recipient[1]
+      }
+      if (config.destination) {
+        document.querySelector('#destination-label').textContent = config.destination[0]
+        destination.placeholder = config.destination[1]
+        destination.type = config.destination[2]
+      }
+      if (config.extra) {
+        document.querySelector('#extra-label').textContent = config.extra[0]
+        extra.placeholder = config.extra[1]
+      }
+      notice.classList.remove('show')
+    }
+
+    document.querySelectorAll('input[name="method"]').forEach((radio) => {
+      radio.addEventListener('change', () => updateMethodFields(radio.value))
+    })
+    updateMethodFields(document.querySelector('input[name="method"]:checked').value)
+
     if (user) {
       try {
         const wallet = await loadWallet()
@@ -78,6 +142,7 @@
           notice.textContent = `Demo withdrawal recorded. New balance: ${money.format(newBalance)}.`
           notice.classList.add('show')
           form.reset()
+          updateMethodFields(document.querySelector('input[name="method"]:checked').value)
         }).catch((error) => {
           notice.textContent = error.message
           notice.classList.add('show')
