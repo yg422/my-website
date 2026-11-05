@@ -66,7 +66,7 @@ export function renderTransactions(transactions, container) {
         const info = document.createElement('div')
         info.className = 'transaction-info'
         const title = document.createElement('strong')
-        title.textContent = transaction.title
+        title.textContent = transaction.title.replace(/^Demo\s+/i, '')
         const date = document.createElement('small')
         date.textContent = new Date(transaction.date).toLocaleString()
         info.append(title, date)

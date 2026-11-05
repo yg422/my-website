@@ -53,8 +53,9 @@
         submit.disabled = true
         notice.textContent = 'Sending…'
         try {
-          const result = await sendDemoTransfer(recipient, amount)
-          notice.textContent = `Transfer complete. Your balance is ${money.format(result.balance)}; the recipient’s balance has been credited.`
+          await sendDemoTransfer(recipient, amount)
+          notice.textContent = ''
+          window.alert('Transfer complete.')
           form.reset()
         } catch (error) {
           notice.textContent = error.message
