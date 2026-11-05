@@ -28,7 +28,7 @@
         </div>
       </div>
       <button type="submit">Continue</button>
-      <p class="secure">Transfers are recorded to your account activity.</p>
+      <p class="secure">Transactions update app balances only.</p>
       <p id="notice" role="status" aria-live="polite"></p>
     </form>
   </main>
@@ -37,25 +37,29 @@
     const user = await requireSignedIn()
     const form = document.querySelector('#send-form')
     const notice = document.querySelector('#notice')
+    let sending = false
     if (user) {
       form.addEventListener('submit', async (event) => {
         event.preventDefault()
+        if (sending) return
         const amount = Number(document.querySelector('#amount').value)
         const recipient = document.querySelector('#recipient-email').value.trim()
         if (!Number.isFinite(amount) || amount <= 0) {
           notice.textContent = 'Enter an amount greater than zero.'
           return
         }
-        if (!window.confirm(`Send ${money.format(amount)} to ${recipient}? This is a demo only.`)) return
         const submit = form.querySelector('button[type="submit"]')
+        sending = true
         submit.disabled = true
+        notice.textContent = 'Sending…'
         try {
           const result = await sendDemoTransfer(recipient, amount)
-          notice.textContent = `Demo transfer sent. Your balance is ${money.format(result.balance)}; the recipient’s demo balance has been credited.`
+          notice.textContent = `Transfer complete. Your balance is ${money.format(result.balance)}; the recipient’s balance has been credited.`
           form.reset()
         } catch (error) {
           notice.textContent = error.message
         } finally {
+          sending = false
           submit.disabled = false
         }
       })
