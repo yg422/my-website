@@ -46,6 +46,7 @@
                 <span>Recent activity</span>
             </div>
             <div id="transactions"></div>
+            <button id="view-all-transactions" class="view-all-transactions" type="button" hidden>View all</button>
         </section>
     </main>
 
@@ -58,7 +59,23 @@
             try {
                 const wallet = await loadWallet()
                 document.querySelector('#balance').textContent = money.format(wallet.balance)
-                renderTransactions(wallet.transactions, document.querySelector('#transactions'))
+                const transactionList = document.querySelector('#transactions')
+                const viewAllButton = document.querySelector('#view-all-transactions')
+                let showingAllTransactions = false
+                const updateTransactionList = () => {
+                    renderTransactions(
+                        showingAllTransactions ? wallet.transactions : wallet.transactions.slice(0, 5),
+                        transactionList
+                    )
+                    viewAllButton.hidden = wallet.transactions.length <= 5
+                    viewAllButton.textContent = showingAllTransactions ? 'Show less' : 'View all'
+                    viewAllButton.setAttribute('aria-expanded', String(showingAllTransactions))
+                }
+                updateTransactionList()
+                viewAllButton.addEventListener('click', () => {
+                    showingAllTransactions = !showingAllTransactions
+                    updateTransactionList()
+                })
             } catch (error) {
                 document.querySelector('#transactions').textContent = error.message
             }

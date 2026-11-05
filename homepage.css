@@ -224,6 +224,27 @@
             color: var(--text);
         }
 
+        .view-all-transactions {
+            display: block;
+            width: fit-content;
+            margin: 12px auto 0;
+            padding: 8px 16px;
+            border: 1px solid #ffffff30;
+            border-radius: 999px;
+            color: var(--text);
+            background: transparent;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .view-all-transactions:hover {
+            background: #ffffff10;
+        }
+
+        .view-all-transactions[hidden] {
+            display: none;
+        }
+
         @media (max-width: 700px) {
             .top-grid {
                 grid-template-columns: 1fr;

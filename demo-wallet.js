@@ -22,7 +22,6 @@ export async function loadWallet() {
         .from('demo_transactions')
         .select('id, title, amount, created_at')
         .order('created_at', { ascending: false })
-        .limit(30)
     if (transactionsError) throw transactionsError
 
     return {
