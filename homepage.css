@@ -127,14 +127,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px 8px;
+            min-height: 44px;
+            padding: 12px 8px;
             gap: 10px;
             border: 0;
             border-radius: 100px;
-            color: #dedce4;
-            /* background: var(--accent); */
-            background: transparent;
-            font-size: 14px;
+            color: #17220d;
+            background: linear-gradient(145deg, #86aa23af, #a6d65d);
+            font-size: 15px;
             font-weight: bold;
             white-space: nowrap;
             cursor: pointer;
@@ -145,8 +145,7 @@
         }
 
         .quick-action-button:hover {
-            filter: brightness(1.1);
-            color: white;
+            filter: brightness(1.06);
         }
 
         .action-icon {
@@ -279,7 +278,9 @@
             }
 
             .quick-action-button {
-                padding: 10px 4px;
+                min-height: 44px;
+                padding: 11px 3px;
+                gap: 5px;
                 font-size: 12px;
             }
 
