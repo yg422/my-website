@@ -32,11 +32,24 @@
       <p id="notice" role="status" aria-live="polite"></p>
     </form>
   </main>
+  <dialog id="transfer-receipt" class="receipt-dialog" aria-labelledby="receipt-title">
+    <div class="receipt-check" aria-hidden="true">✓</div>
+    <p class="receipt-status">Payment successful</p>
+    <h2 id="receipt-title">Transfer complete</h2>
+    <p class="receipt-amount" id="receipt-amount"></p>
+    <div class="receipt-details">
+      <div><span>Sent to</span><strong id="receipt-recipient"></strong></div>
+      <div><span>Date</span><strong id="receipt-date"></strong></div>
+      <div><span>Status</span><strong class="receipt-complete">Complete</strong></div>
+    </div>
+    <button class="receipt-done" id="receipt-done" type="button">Done</button>
+  </dialog>
   <script type="module">
     import { requireSignedIn, sendDemoTransfer, money } from './demo-wallet.js'
     const user = await requireSignedIn()
     const form = document.querySelector('#send-form')
     const notice = document.querySelector('#notice')
+    const receipt = document.querySelector('#transfer-receipt')
     let sending = false
     if (user) {
       form.addEventListener('submit', async (event) => {
@@ -55,7 +68,10 @@
         try {
           await sendDemoTransfer(recipient, amount)
           notice.textContent = ''
-          window.alert('Transfer complete.')
+          document.querySelector('#receipt-amount').textContent = money.format(amount)
+          document.querySelector('#receipt-recipient').textContent = recipient
+          document.querySelector('#receipt-date').textContent = new Date().toLocaleString()
+          receipt.showModal()
           form.reset()
         } catch (error) {
           notice.textContent = error.message
@@ -65,6 +81,7 @@
         }
       })
     }
+    document.querySelector('#receipt-done').addEventListener('click', () => receipt.close())
   </script>
 </body>
 </html>
