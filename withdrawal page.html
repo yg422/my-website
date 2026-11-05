@@ -70,7 +70,6 @@
       <div><span>Submitted</span><strong id="receipt-date"></strong></div>
       <div><span>Status</span><strong class="pending-status">Pending</strong></div>
     </div>
-    <p class="receipt-fee-note">No fee is charged for this simulated withdrawal.</p>
     <button class="receipt-done" id="receipt-done" type="button">Done</button>
   </dialog>
   <script type="module">
@@ -80,6 +79,7 @@
     const notice = document.querySelector('#notice')
     const balanceDisplay = document.querySelector('#withdrawal-balance')
     const receipt = document.querySelector('#withdrawal-receipt')
+    let withdrawing = false
     const recipientField = document.querySelector('#recipient-field')
     const destinationField = document.querySelector('#destination-field')
     const extraField = document.querySelector('#extra-field')
@@ -142,6 +142,7 @@
       }
       form.addEventListener('submit', (event) => {
         event.preventDefault()
+        if (withdrawing) return
         const amount = Number(document.querySelector('#amount').value)
         const method = document.querySelector('input[name="method"]:checked').value
         if (!Number.isFinite(amount) || amount <= 0) {
@@ -149,8 +150,8 @@
           notice.classList.add('show')
           return
         }
-        if (!window.confirm(`Record a demo withdrawal of ${money.format(amount)} by ${method}?`)) return
         const submit = form.querySelector('button[type="submit"]')
+        withdrawing = true
         submit.disabled = true
         withdrawDemoFunds(amount, method).then((newBalance) => {
           balanceDisplay.textContent = money.format(newBalance)
@@ -170,11 +171,15 @@
           notice.textContent = error.message
           notice.classList.add('show')
         }).finally(() => {
+          withdrawing = false
           submit.disabled = false
         })
       })
     }
-    document.querySelector('#receipt-done').addEventListener('click', () => receipt.close())
+    document.querySelector('#receipt-done').addEventListener('click', () => {
+      receipt.close()
+      window.location.assign('homepage.html')
+    })
   </script>
 </body>
 </html>

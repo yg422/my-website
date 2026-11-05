@@ -162,7 +162,6 @@
     .receipt-details div { display: flex; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid #dbe5f2; }
     .receipt-details span { color: #64748b; }
     .receipt-details strong { max-width: 65%; overflow-wrap: anywhere; text-align: right; }
-    .receipt-fee-note { margin: 16px 0 0; color: #64748b; font-size: 13px; }
     .receipt-dialog .receipt-done { margin-top: 20px; }
     @media (max-width: 540px) {
       main { padding: 22px; }
