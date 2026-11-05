@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body {
+    background: #08080c;
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: #6c3cff;
+    filter: blur(150px);
+    opacity: 0.4;
+    top: -100px;
+    left: -100px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 8%;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.logo span {
+    color: #8b5cf6;
+}
+
+.nav-right a {
+    color: #101010;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.nav-right a:hover {
+    color: rgb(42, 41, 41);
+}
+
+.btn-small {
+    background: white;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    padding: 40px 8%;
+    gap: 50px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.left {
+    flex: 1;
+    min-width: 320px;
+}
+
+.badge {
+    background: #191326;
+    border: 1px solid #49317a;
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 13px;
+    width: fit-content;
+    margin-bottom: 20px;
+}
+
+.left h1 {
+    font-size: 62px;
+    line-height: 1.05;
+    letter-spacing: -2px;
+}
+
+.left h1 i {
+    color: #a78bfa;
+    font-style: normal;
+}
+
+.left p {
+    color: #999;
+    margin: 20px 0;
+    font-size: 18px;
+    max-width: 450px;
+}
+
+.form-box {
+    display: flex;
+    background: #15151b;
+    padding: 6px;
+    border-radius: 12px;
+    max-width: 400px;
+    border: 1px solid #333340;
+    margin-top: 10px;
+}
+
+.form-box input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 10px;
+    outline: none;
+}
+
+.form-box button {
+    background: #8b5cf6;
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.form-box button:hover {
+    background: #7040dd;
+}
+
+.users {
+    margin-top: 15px;
+    color: #777;
+    font-size: 14px;
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.phone {
+    width: 280px;
+    background: linear-gradient(180deg, #252530, #121213);
+    border: 1px solid #383843;
+    border-radius: 35px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.phone-top {
+    width: 80px;
+    height: 6px;
+    background: #444;
+    border-radius: 10px;
+    margin: 0 auto 20px;
+}
+
+.balance h2 {
+    font-size: 32px;
+    margin: 5px 0;
+}
+
+.up {
+    color: #4ade80;
+    font-size: 13px;
+}
+
+.tx {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.t {
+    display: flex;
+    justify-content: space-between;
+    background: #202027;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.green {
+    color: #4ade80;
+}
+
+.send-btn {
+    width: 100%;
+    margin-top: 20px;
+    background: white;
+    color: black;
+    border: none;
+    padding: 14px;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.send-btn:hover {
+    background: #ddd;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 30px 8%;
+}
+
+.f {
+    background: #111113;
+    border: 1px solid #292930;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.f h3 {
+    font-size: 28px;
+}
+
+.f p {
+    color: #888;
+    margin-top: 5px;
+}
+
+@media (max-width: 800px) {
+    header {
+        padding: 20px 5%;
+    }
+
+    main {
+        padding: 30px 5%;
+        gap: 35px;
+    }
+
+    .left h1 {
+        font-size: 38px;
+    }
+
+    .features {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 25px 5%;
+    }
+
+    .nav-right a {
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .left {
+        min-width: 100%;
+    }
+
+    .right {
+        min-width: 100%;
+    }
+
+    .features {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .nav-right a {
+        font-size: 13px;
+    }
+}

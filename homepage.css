@@ -1,0 +1,253 @@
+:root {
+            --background: #09090d;
+            --surface: #1b1a23;
+            --surface-light: #24232d;
+            --purple: #291858;
+            --accent: #a181ff;
+            --text: #f8f7fc;
+            --muted: #aaa6b8;
+            --green: #35d28a;
+            --red: #ff7272;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text);
+            background:
+                radial-gradient(ellipse at 12% 15%, var(--purple), transparent 52%),
+                var(--background);
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1160px;
+            margin: auto;
+            padding: 28px 24px;
+        }
+
+        .logo {
+            color: var(--text);
+            font-size: 25px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .logout {
+            padding: 10px 20px;
+            border: 1px solid #ffffff30;
+            border-radius: 999px;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        main {
+            width: min(100% - 40px, 1100px);
+            margin: 42px auto;
+        }
+
+        .welcome {
+            margin-bottom: 28px;
+        }
+
+        .welcome p {
+            margin: 0 0 8px;
+            color: var(--muted);
+        }
+
+        .welcome h1 {
+            margin: 0;
+            font-size: clamp(28px, 5vw, 40px);
+        }
+
+        .welcome h1 span {
+            color: var(--accent);
+        }
+
+        .top-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 20px;
+        }
+
+        .card {
+            border: 1px solid #ffffff18;
+            border-radius: 22px;
+            background: linear-gradient(145deg, #141013, #141319);
+            box-shadow: 0 20px 55px #0005;
+        }
+
+        .balance-card {
+            padding: 30px;
+            background: linear-gradient(145deg,#86aa23af, #a6d65d);
+        }
+
+        .balance-label {
+            margin: 0 0 12px;
+            color: var(--muted);
+        }
+
+        .balance-amount {
+            margin: 0;
+            font-size: clamp(34px, 6vw, 52px);
+            letter-spacing: -1px;
+        }
+
+        .balance-note {
+            margin: 12px 0 0;
+            color: var(--white);
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 14px;
+            padding: 24px;
+        }
+
+        .actions h2 {
+            margin: 0 0 4px;
+            font-size: 20px;
+        }
+
+        .quick-action-button{
+            /* width: 100%; */
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            gap: 10px;
+            border: 0;
+            border-radius: 100px;
+            color: #dedce4;
+            /* background: var(--accent); */
+            background: transparent;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .withdraw-icon{
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .quick-action-button:hover {
+            filter: brightness(1.1);
+            color: white;
+        }
+
+        .quick--button.secondary{
+            border: opx solid #ffffff35;
+            /* color: var(--text); */
+            color: white;
+            background: transparent;
+        }
+
+        .history-card {
+            margin-top: 24px;
+            padding: 26px;
+        }
+
+        .history-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .history-heading h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .history-heading span {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .transaction {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 17px 0;
+            border-top: 1px solid #ffffff12;
+        }
+
+        .transaction-info strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .transaction-info small {
+            color: var(--muted);
+        }
+        .container{
+             display: flex;
+             justify-content: left;
+             gap: 20px;
+             padding: 20px;
+        }
+        .box{
+            background-color: #6fa5af72;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            flex: none;
+            border: 1px solid rgb(246, 247, 246);
+            
+        }
+        .amount {
+            white-space: nowrap;
+            font-weight: 700;
+        }
+
+        .amount.positive {
+            color: var(--green);
+        }
+
+        .amount.negative {
+            color: var(--text);
+        }
+
+        @media (max-width: 700px) {
+            .top-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .actions h2 {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .actions h2 {
+                grid-column: auto;
+            }
+
+            .history-card,
+            .balance-card {
+                padding: 21px;
+            }
+        }
