@@ -131,6 +131,39 @@
     #notice.show { 
       display: block; 
     }
+    .receipt-dialog {
+      width: min(calc(100% - 32px), 410px);
+      padding: 30px;
+      border: 1px solid #dbe5f2;
+      border-radius: 20px;
+      color: #172554;
+      background: #fff;
+      box-shadow: 0 24px 70px rgba(15, 23, 42, .25);
+      text-align: center;
+    }
+    .receipt-dialog::backdrop { background: rgba(15, 23, 42, .58); }
+    .receipt-check {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      color: #8a5a00;
+      background: #fff1c2;
+      font-size: 34px;
+      font-weight: 700;
+    }
+    .pending-check { font-size: 27px; }
+    .receipt-status { margin: 0 0 4px; color: #8a5a00; font-size: 13px; font-weight: 700; }
+    .receipt-dialog h2 { margin: 0; font-size: 24px; }
+    .receipt-amount { margin: 10px 0 22px; font-size: 34px; font-weight: 750; letter-spacing: -.04em; }
+    .receipt-details { padding: 4px 0; border-top: 1px solid #dbe5f2; text-align: left; }
+    .receipt-details div { display: flex; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid #dbe5f2; }
+    .receipt-details span { color: #64748b; }
+    .receipt-details strong { max-width: 65%; overflow-wrap: anywhere; text-align: right; }
+    .receipt-fee-note { margin: 16px 0 0; color: #64748b; font-size: 13px; }
+    .receipt-dialog .receipt-done { margin-top: 20px; }
     @media (max-width: 540px) {
       main { padding: 22px; }
       .methods { grid-template-columns: 1fr; }

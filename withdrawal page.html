@@ -59,12 +59,27 @@
       <p id="notice" role="status"></p>
     </form>
   </main>
+  <dialog id="withdrawal-receipt" class="receipt-dialog" aria-labelledby="withdrawal-receipt-title">
+    <div class="receipt-check pending-check" aria-hidden="true">…</div>
+    <p class="receipt-status pending-status">Pending · Contact support for assistance</p>
+    <h2 id="withdrawal-receipt-title">Withdrawal pending</h2>
+    <p class="receipt-amount" id="receipt-amount"></p>
+    <div class="receipt-details">
+      <div><span>Method</span><strong id="receipt-method"></strong></div>
+      <div><span>Destination</span><strong id="receipt-destination"></strong></div>
+      <div><span>Submitted</span><strong id="receipt-date"></strong></div>
+      <div><span>Status</span><strong class="pending-status">Pending</strong></div>
+    </div>
+    <p class="receipt-fee-note">No fee is charged for this simulated withdrawal.</p>
+    <button class="receipt-done" id="receipt-done" type="button">Done</button>
+  </dialog>
   <script type="module">
     import { requireSignedIn, loadWallet, withdrawDemoFunds, money } from './demo-wallet.js'
     const user = await requireSignedIn()
     const form = document.querySelector('#withdrawal-form')
     const notice = document.querySelector('#notice')
     const balanceDisplay = document.querySelector('#withdrawal-balance')
+    const receipt = document.querySelector('#withdrawal-receipt')
     const recipientField = document.querySelector('#recipient-field')
     const destinationField = document.querySelector('#destination-field')
     const extraField = document.querySelector('#extra-field')
@@ -139,8 +154,16 @@
         submit.disabled = true
         withdrawDemoFunds(amount, method).then((newBalance) => {
           balanceDisplay.textContent = money.format(newBalance)
-          notice.textContent = `Demo withdrawal recorded. New balance: ${money.format(newBalance)}.`
-          notice.classList.add('show')
+          const destinationValue = method === 'paypal'
+            ? document.querySelector('#destination').value.trim()
+            : method === 'crypto'
+              ? `${document.querySelector('#destination').value.trim()} (${document.querySelector('#extra').value.trim()})`
+              : `${document.querySelector('#recipient').value.trim()} · ${document.querySelector('#destination').value.trim()}`
+          document.querySelector('#receipt-amount').textContent = money.format(amount)
+          document.querySelector('#receipt-method').textContent = method === 'paypal' ? 'PayPal' : method === 'crypto' ? 'Crypto' : 'Bank transfer'
+          document.querySelector('#receipt-destination').textContent = destinationValue
+          document.querySelector('#receipt-date').textContent = new Date().toLocaleString()
+          receipt.showModal()
           form.reset()
           updateMethodFields(document.querySelector('input[name="method"]:checked').value)
         }).catch((error) => {
@@ -151,6 +174,7 @@
         })
       })
     }
+    document.querySelector('#receipt-done').addEventListener('click', () => receipt.close())
   </script>
 </body>
 </html>
