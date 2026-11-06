@@ -127,8 +127,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 44px;
-            padding: 12px 8px;
+            min-height: 52px;
+            padding: 14px 8px;
             gap: 10px;
             border: 0;
             border-radius: 100px;
@@ -278,8 +278,8 @@
             }
 
             .quick-action-button {
-                min-height: 44px;
-                padding: 11px 3px;
+                min-height: 48px;
+                padding: 13px 3px;
                 gap: 5px;
                 font-size: 12px;
             }
